@@ -40,15 +40,18 @@ write_to_file() {
 }
 
 increment_file_value() {
-  local filename=$1
+  local file=$1
+  local limit=$2
 
-  contents=$(cat "$filename")
-
-  if [[ "$contents" =~ ^[0-9]*$ ]]; then
-    value=$((contents + 1))
+  if [ ! -f "$file" ]; then
+      echo "0" > "$file"
   else
-    value=0
+      content=$(cat "$file")
+      if [ "$content" -lt "$limit" ]; then
+          echo $((content + 1)) > "$file"
+      else
+          echo "1" > "$file"
+      fi
   fi
-
-  echo "$value" > "$filename"
 }
+
