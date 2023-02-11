@@ -27,8 +27,8 @@ sync_timers() {
 		remove_file "$POMODORO_BREAK_MINS_FILE"
 		remove_file "$POMODORO_LONG_BREAK_MINS_FILE"
 
-	elif [ -f "$POMODORO_MINS_FILE" ] &&
-		[ -f "$POMODORO_BREAK_MINS_FILE" ]; then
+	elif [ -f "$POMODORO_MINS_FILE" ] && [ -f "$POMODORO_BREAK_MINS_FILE" ] &&
+    [ -f "$POMODORO_LONG_BREAK_MINS_FILE" ]; then
 		set_tmux_option "@pomodoro_mins $(read_file "$POMODORO_MINS_FILE")"
 		set_tmux_option "@pomodoro_break_mins $(read_file "$POMODORO_BREAK_MINS_FILE")"
 		set_tmux_option "@pomodoro_long_break_mins $(read_file "$POMODORO_LONG_BREAK_MINS_FILE")"
