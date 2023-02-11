@@ -38,3 +38,17 @@ write_to_file() {
 	local file=$2
 	echo "$data" >"$file"
 }
+
+increment_file_value() {
+  local filename=$1
+
+  contents=$(cat "$filename")
+
+  if [[ "$contents" =~ ^[0-9]*$ ]]; then
+    value=$((contents + 1))
+  else
+    value=0
+  fi
+
+  echo "$value" > "$filename"
+}
