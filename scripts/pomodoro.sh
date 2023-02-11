@@ -6,6 +6,7 @@ POMODORO_FILE="$POMODORO_DIR/pomodoro.txt"
 POMODORO_STATUS_FILE="$POMODORO_DIR/pomodoro_status.txt"
 POMODORO_MINS_FILE="$CURRENT_DIR/user_mins.txt"
 POMODORO_BREAK_MINS_FILE="$CURRENT_DIR/user_break_mins.txt"
+POMODORO_LONG_BREAK_MINS_FILE="$CURRENT_DIR/user_long_break_mins.txt"
 
 pomodoro_duration_minutes="@pomodoro_mins"
 pomodoro_break_minutes="@pomodoro_break_mins"
@@ -136,12 +137,14 @@ pomodoro_cancel() {
 
 pomodoro_custom() {
 	tmux command-prompt \
-		-I "$(get_pomodoro_duration), $(get_pomodoro_break)" \
-		-p 'Pomodoro duration (mins):, Break duration (mins):' \
+		-I "$(get_pomodoro_duration), $(get_pomodoro_break), $(get_long_pomodoro_break)" \
+		-p 'Pomodoro duration (mins):, Break duration (mins):, Long Break duration (mins)' \
 		"set -g @pomodoro_mins %1;
 		 set -g @pomodoro_break_mins %2;
+		 set -g @pomodoro_long_break_mins %3;
 		 run-shell 'echo %1 > $POMODORO_MINS_FILE';
 		 run-shell 'echo %2 > $POMODORO_BREAK_MINS_FILE'
+		 run-shell 'echo %3 > $POMODORO_LONG_BREAK_MINS_FILE'
 		"
 }
 
@@ -165,6 +168,14 @@ pomodoro_menu() {
 		"15 minutes" "" "set -g @pomodoro_break_mins 15; run-shell 'echo 15 > $POMODORO_BREAK_MINS_FILE'" \
 		"20 minutes" "" "set -g @pomodoro_break_mins 20; run-shell 'echo 20 > $POMODORO_BREAK_MINS_FILE'" \
 		"30 minutes" "" "set -g @pomodoro_break_mins 30; run-shell 'echo 30 > $POMODORO_BREAK_MINS_FILE'"
+
+	tmux display-menu -y S -x "$pomodoro_menu_position" -T " Long Break " \
+		"" \
+		"5 minutes"  "" "set -g @pomodoro_long_break_mins 5 ; run-shell 'echo 5  > $POMODORO_LONG_BREAK_MINS_FILE'" \
+		"10 minutes" "" "set -g @pomodoro_long_break_mins 10; run-shell 'echo 10 > $POMODORO_LONG_BREAK_MINS_FILE'" \
+		"15 minutes" "" "set -g @pomodoro_long_break_mins 15; run-shell 'echo 15 > $POMODORO_LONG_BREAK_MINS_FILE'" \
+		"20 minutes" "" "set -g @pomodoro_long_break_mins 20; run-shell 'echo 20 > $POMODORO_LONG_BREAK_MINS_FILE'" \
+		"30 minutes" "" "set -g @pomodoro_long_break_mins 30; run-shell 'echo 30 > $POMODORO_LONG_BREAK_MINS_FILE'"
 
 	tmux display-menu -y S -x "$pomodoro_menu_position" -T " Start New Pomodoro? " \
 		"yes" "" "run-shell '$CURRENT_DIR/pomodoro.sh start'" \
