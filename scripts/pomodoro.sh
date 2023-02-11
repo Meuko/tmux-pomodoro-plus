@@ -199,23 +199,28 @@ pomodoro_status() {
 	pomodoro_auto_restart=$(get_pomodoro_auto_restart)
 	export pomodoro_auto_restart
 
+  # Current session length
 	local difference=$((current_time - pomodoro_start_time))
 
 	if [ "$pomodoro_start_time" -eq -1 ]; then
 		echo ""
+    # If current session length is equal to or greater than session length + break
 	elif [ $difference -ge "$(minutes_to_seconds $(($(get_pomodoro_duration) + $(get_pomodoro_break))))" ]; then
 		pomodoro_start_time=-1
 		echo ""
+    # Which means that if we're on break, end the break.
 		if [ "$pomodoro_status" == 'on_break' ]; then
 			send_notification "🍅 Break finished!" "Your Pomodoro break is now over"
 			write_to_file "break_complete" "$POMODORO_STATUS_FILE"
 			if [ "$pomodoro_auto_restart" = true ]; then
+        # Start another session if auto is on.
 				pomodoro_start
 			else
 				# Cancel the pomodoro and silence any notifications
 				pomodoro_cancel true
 			fi
 		fi
+    # If it's time for a break
 	elif [ $difference -ge "$(minutes_to_seconds "$(get_pomodoro_duration)")" ]; then
 		if [ "$pomodoro_status" -eq -1 ]; then
 			send_notification "🍅 Pomodoro completed!" "Your Pomodoro has now completed"
