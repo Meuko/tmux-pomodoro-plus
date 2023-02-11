@@ -11,6 +11,7 @@ POMODORO_LONG_BREAK_MINS_FILE="$CURRENT_DIR/user_long_break_mins.txt"
 
 pomodoro_duration_minutes="@pomodoro_mins"
 pomodoro_break_minutes="@pomodoro_break_mins"
+pomodoro_long_break_minutes="@pomodoro_break_mins"
 pomodoro_auto_restart="@pomodoro_auto_restart"
 pomodoro_on="@pomodoro_on"
 pomodoro_complete="@pomodoro_complete"
