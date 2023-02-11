@@ -31,6 +31,10 @@ get_pomodoro_break() {
 	get_tmux_option "$pomodoro_break_minutes" "5"
 }
 
+get_pomodoro_long_break() {
+	get_tmux_option "$pomodoro_long_break_minutes" "20"
+}
+
 get_pomodoro_auto_restart() {
 	get_tmux_option "$pomodoro_auto_restart" false
 }
