@@ -55,3 +55,11 @@ increment_file_value() {
   fi
 }
 
+files_exist() {
+  for file in "$@"; do
+    if [ ! -f "$file" ]; then
+      return 1
+    fi
+  done
+  return 0
+}
